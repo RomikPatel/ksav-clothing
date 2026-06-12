@@ -1,0 +1,20 @@
+/* Make the container exactly the size of the screen */
+.video-container {
+    position: relative;
+    width: 100vw;  /* 100% of the viewport width */
+    height: 100vh; /* 100% of the viewport height */
+    overflow: hidden; /* Hides the parts of the video that bleed off-screen */
+}
+/* Force the video to fill the container and stay centered */
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This centers and crops the video perfectly */
+}
+body{
+    background-color: rgb(18, 18, 87);
+    margin: 0%;
+}
