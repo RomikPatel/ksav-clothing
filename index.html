@@ -1,16 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="3; url=https://rmypatel.creator-spring.com">
-    <meta name="google-site-verification" content="HHGiYcxzQh2wltnadf2AB4KZobxwzO5gqVL2FzNlpA8" />
-    <meta name="p:domain_verify" 
-        content="29b03be99c066594e5b2981cc1562f4c"/>
-    <link rel="stylesheet" href="style.css">
-    <title>K·SAV Clothings</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="refresh" content="5; url=https://rmypatel.creator-spring.com">
+  <meta name="google-site-verification" content="HHGiYcxzQh2wltnadf2AB4KZobxwzO5gqVL2FzNlpA8" />
+  <meta name="p:domain_verify" content="29b03be99c066594e5b2981cc1562f4c"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K·SAV Clothings</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Tokens ─────────────────────────────────── */
+    :root {
+      --ink:          #111111;
+      --paper:        #ffffff;
+      --obsidian:     #272625;
+      --graphite:     #6d6c6b;
+      --cream:        #f4f3ef;
+      --stone:        #b1b1af;
+      --pearl:        #ecebea;
+      --deep-violet:  #10054d;
+      --ember:        #e8400d;
+      --blush:        #ffd7f0;
+      --mint:         #b7efb2;
+      --yellow:       #ffef99;
+      --lilac:        #e2ddfd;
+
+      --r-card:    12px;
+      --r-btn:     12px;
+      --r-pill:    9999px;
+      --r-badge:   6px;
+
+      --shadow-card:
+        rgba(17,17,17,0.07) 0px 2px 4px 0px,
+        rgba(17,17,17,0.05) 0px 0px 0px 1px;
+      --shadow-card-hover:
+        rgba(17,17,17,0.12) 0px 26px 60px -6px,
+        rgba(17,17,17,0.04) 0px 6px 6px -3px,
+        rgba(17,17,17,0.04) 0px 1px 1px -0.5px;
+
+      --f: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--f);
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── Atmospheric gradient (corner-anchored) ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(280% 120% at -8% -10%,
+        #e8400d 0%,
+        #ffeed8 22%,
+        #d0b2ff 70%,
+        transparent 100%);
+      opacity: 0.22;
+    }
+
+    /* ─── Page shell ─────────────────────────────── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 56px 32px 80px;
+    }
+
+    /* ─── Header row ─────────────────────────────── */
+    .header {
+      margin-bottom: 32px;
+    }
+    .header-top {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.56px;
+      line-height: 1.1;
+    }
+    .result-count {
+      font-size: 14px;
+      color: var(--graphite);
+      letter-spacing: -0.14px;
+    }
+    .header-sub {
+      font-size: 14px;
+      color: var(--graphite);
+      letter-spacing: -0.14px;
+    }
+
+    /* ─── Filter pill row ────────────────────────── */
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.36px;
+      color: var(--graphite);
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--stone);
+      background: var(--paper);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      cursor: pointer;
+      letter-spacing: -0.14px;
+      transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+      white-space: nowrap;
+    }
+    .filter-pill:hover {
+      background: var(--cream);
+      border-color: var(--ink);
+    }
+    .filter-pill.active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .filter-pill .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ─── Product grid ───────────────────────────── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    /* ─── Product card ───────────────────────────── */
+    .card {
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      border-radius: var(--r-card);
+      border: 1px solid rgba(17,17,17,0.08);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition:
+        box-shadow 0.28s ease,
+        transform 0.22s ease,
+        border-color 0.22s ease;
+      position: relative;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-4px);
+      border-color: rgba(17,17,17,0.14);
+    }
+    .card:active { transform: translateY(-2px); }
+
+    /* Image area */
+    .card-img-wrap {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--cream);
+    }
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease, opacity 0.3s ease;
+    }
+    .card-img.alt-img {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+    .card:hover .card-img.main-img { opacity: 0; transform: scale(1.04); }
+    .card:hover .card-img.alt-img  { opacity: 1; transform: scale(1.0); }
+
+    /* Badges */
+    .badge-row {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+    }
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: var(--r-badge);
+      line-height: 1.2;
+    }
+    .badge-choice  { background: var(--ink);        color: var(--paper); }
+    .badge-viewed  { background: var(--obsidian);   color: var(--paper); }
+    .badge-coupon  { background: var(--mint);        color: var(--ink);   }
+    .badge-sale    { background: var(--ember);       color: var(--paper); }
+    .badge-empty   { visibility: hidden; }
+
+    /* Wishlist btn */
+    .wishlist-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 32px; height: 32px;
+      border-radius: var(--r-pill);
+      border: 1px solid rgba(17,17,17,0.12);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease, background 0.2s ease;
+      z-index: 2;
+    }
+    .card:hover .wishlist-btn { opacity: 1; }
+    .wishlist-btn:hover { background: var(--blush); }
+    .wishlist-btn svg { width: 14px; height: 14px; stroke: var(--ink); fill: none; stroke-width: 1.5; }
+
+    /* Pastel accent strip on bottom of image */
+    .card-accent {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .card:hover .card-accent { opacity: 1; }
+
+    /* Info area */
+    .card-body {
+      padding: 16px 16px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .card-brand {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--graphite);
+      text-transform: uppercase;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.14px;
+      line-height: 1.3;
+      color: var(--ink);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Stars */
+    .card-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .stars {
+      display: flex;
+      gap: 1px;
+    }
+    .star {
+      width: 12px; height: 12px;
+      fill: var(--ink);
+      opacity: 0;
+    }
+    .star.filled    { opacity: 1; }
+    .star.half      { opacity: 0.4; }
+    .rating-score   { font-size: 12px; font-weight: 500; color: var(--ink); letter-spacing: 0; }
+    .rating-count   { font-size: 12px; color: var(--graphite); }
+
+    /* Pricing */
+    .card-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .price-current {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.56px;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .price-symbol {
+      font-size: 14px;
+      font-weight: 500;
+      vertical-align: super;
+      line-height: 0;
+    }
+    .price-mrp {
+      font-size: 13px;
+      color: var(--graphite);
+      text-decoration: line-through;
+    }
+    .price-off {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ember);
+      letter-spacing: -0.14px;
+    }
+
+    /* Social proof */
+    .card-proof {
+      font-size: 12px;
+      color: var(--graphite);
+      letter-spacing: -0.14px;
+      font-style: italic;
+    }
+
+    /* Delivery */
+    .card-delivery {
+      font-size: 12px;
+      color: var(--graphite);
+      letter-spacing: -0.14px;
+    }
+    .card-delivery strong { color: var(--ink); font-weight: 500; }
+
+    /* CTA */
+    .card-cta {
+      padding: 12px 16px 16px;
+      margin-top: auto;
+    }
+    .btn-cart {
+      width: 100%;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      border-radius: var(--r-btn);
+      padding: 12px 16px;
+      font-family: var(--f);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+    }
+    .btn-cart:hover  { opacity: 0.85; }
+    .btn-cart:active { transform: scale(0.98); }
+    .btn-cart svg { width: 15px; height: 15px; stroke: var(--paper); fill: none; stroke-width: 1.8; flex-shrink: 0; }
+
+    /* ─── Responsive ────────────────────────────── */
+    @media (max-width: 1100px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 860px)  { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px)  {
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .page { padding: 32px 16px 60px; }
+    }
+    @media (max-width: 360px)  { .product-grid { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+  </style>
 </head>
 <body>
-    <a href="https://rmypatel.creator-spring.com"></a>
+  <a href="https://rmypatel.creator-spring.com"></a>
     <div class="video-container">
         <video autoplay muted loop playsinline poster="photo_front.jpg">
             <source src="background_play.mp4" type="video/webm">
@@ -18,5 +406,182 @@
         </video>
     </div>
     <p>welcome to K·SAV Clothings this is an new start to clothing to your wardrobe collection, and new ideas to inspire other creators out there and new ideas to kick in.</p>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <h1>KSAV CLOTHINGS</h1>
+      <span class="result-count"></span>
+    </div>
+    <p class="header-sub">THE OUTSIDE OF BOX COLLECTION</p>
+  </div>
+
+  <!-- Product grid -->
+  <div class="product-grid">
+
+    <!-- Card 1 — JustGrow -->
+    <a class="card" href="https://rmypatel.creator-spring.com/listing/just-grow-dwell?product=345&variation=6361" target="_blank" rel="noopener noreferrer">
+      <div class="card-img-wrap">
+        <img class="card-img main-img"
+          src="https://mockup-api.teespring.com/v3/image/m_eQmDahuNLzrPcsSDbDdUNZXbI/800/800.jpg"
+          alt="Lymio Polo T-Shirt front" />
+        <img class="card-img alt-img"
+          src="https://mockup-api.teespring.com/v3/image/q7rEWYW9NM-NaXYfpAjLwSb52LM/800/800.jpg"
+          alt="Lymio Polo T-Shirt back" />
+        <button class="wishlist-btn" aria-label="Save to wishlist" onclick="event.preventDefault()">
+          <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 13.5S1.5 9.5 1.5 5.5A3 3 0 0 1 8 4a3 3 0 0 1 6.5 1.5C14.5 9.5 8 13.5 8 13.5z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="card-accent" style="background: var(--blush)"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-brand">Cotton-poly</div>
+        <div class="card-title">JUST GROW - DWELL Unisex Classic Crewneck Sweatshirt</div>
+        <div class="card-rating">
+          <div class="stars">
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star half"   viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star"        viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+          </div>
+          <span class="rating-score">3.5</span>
+          <span class="rating-count">(572)</span>
+        </div>
+        <div class="card-price">
+          <span class="price-current"><span class="price-symbol">$</span>32.19</span>
+          <span class="price-mrp">$50.99</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 2 — lifeDZ -->
+    <a class="card" href="https://rmypatel.creator-spring.com/listing/lifedz?product=46&variation=2739" target="_blank" rel="noopener noreferrer">
+      <div class="card-img-wrap">
+        <img class="card-img main-img"
+          src="https://mockup-api.teespring.com/v3/image/sYEhxOVcgNVZLrJ1UTEIO_HfxIQ/800/800.jpg"
+          alt="AUSK Cable-Knit Polo front" />
+        <img class="card-img alt-img"
+          src="https://mockup-api.teespring.com/v3/image/Ehn0xoFRMExQL6TP8GB2ea9KLws/800/800.jpg"
+          alt="AUSK Cable-Knit Polo worn" />
+        <button class="wishlist-btn" aria-label="Save to wishlist" onclick="event.preventDefault()">
+          <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 13.5S1.5 9.5 1.5 5.5A3 3 0 0 1 8 4a3 3 0 0 1 6.5 1.5C14.5 9.5 8 13.5 8 13.5z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="card-accent" style="background: var(--yellow)"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-brand">Cotton-poly</div>
+        <div class="card-title">LifeDZ Next Level 3600 | Premium Ring-Spun Cotton T-Shirt</div>
+        <div class="card-rating">
+          <div class="stars">
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star half"   viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star"        viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+          </div>
+          <span class="rating-score">3.6</span>
+          <span class="rating-count">(188)</span>
+        </div>
+        <div class="card-price">
+          <span class="price-current"><span class="price-symbol">$</span>26.24</span>
+          <span class="price-mrp">$ 40.55</span>
+          <span class="price-off">35% off</span>
+        </div>
+      </div>
+    </a>
+    <!-- Card 3 — love -->
+    <a class="card" href="https://rmypatel.creator-spring.com/listing/love-hoodie-2026?product=227&variation=105965" target="_blank" rel="noopener noreferrer">
+      <div class="card-img-wrap">
+        <img class="card-img main-img"
+          src="https://mockup-api.teespring.com/v3/image/HzPyQrHDFjP-Is9dlusST8pP2RY/800/800.jpg"
+          alt="AUSK Cable-Knit Polo front" />
+        <img class="card-img alt-img"
+          src="https://mockup-api.teespring.com/v3/image/_FI9FuZ83SugTqdbV17p_V8wTLw/800/800.jpg"
+          alt="AUSK Cable-Knit Polo worn" />
+        <button class="wishlist-btn" aria-label="Save to wishlist" onclick="event.preventDefault()">
+          <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 13.5S1.5 9.5 1.5 5.5A3 3 0 0 1 8 4a3 3 0 0 1 6.5 1.5C14.5 9.5 8 13.5 8 13.5z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="card-accent" style="background: var(--ember)"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-brand">Cotton-poly</div>
+        <div class="card-title">LOVE Hoodie Unisex Premium Pullover Hoodie</div>
+        <div class="card-rating">
+          <div class="stars">
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star half"   viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star"        viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+          </div>
+          <span class="rating-score">3.6</span>
+          <span class="rating-count">(188)</span>
+        </div>
+        <div class="card-price">
+          <span class="price-current"><span class="price-symbol">$</span>32.54</span>
+          <span class="price-mrp">$ 60.95</span>
+          <span class="price-off">35% off</span>
+        </div>
+      </div>
+    </a>
+    <!-- Card 4 — just grow -->
+    <a class="card" href="https://rmypatel.creator-spring.com/listing/just-grow-dwell?product=2442&variation=106864" target="_blank" rel="noopener noreferrer">
+      <div class="card-img-wrap">
+        <img class="card-img main-img"
+          src="https://mockup-api.teespring.com/v3/image/i9ut6UYQpOJWlO6Ilnr5Z27X4EU/800/800.jpg"
+          alt="AUSK Cable-Knit Polo front" />
+        <img class="card-img alt-img"
+          src="https://mockup-api.teespring.com/v3/image/E9MbO4ylOBC1TwQUzETW9Ec50bU/800/800.jpg"
+          alt="AUSK Cable-Knit Polo worn" />
+        <button class="wishlist-btn" aria-label="Save to wishlist" onclick="event.preventDefault()">
+          <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 13.5S1.5 9.5 1.5 5.5A3 3 0 0 1 8 4a3 3 0 0 1 6.5 1.5C14.5 9.5 8 13.5 8 13.5z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="card-accent" style="background: var(--ember)"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-brand">Cotton-poly</div>
+        <div class="card-title">JUST GROW - DWELL AS Colour 4062 | Women's Relaxed Crop Tee</div>
+        <div class="card-rating">
+          <div class="stars">
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star filled" viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star half"   viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+            <svg class="star"        viewBox="0 0 12 12"><path d="M6 1l1.4 2.9L11 4.3l-2.5 2.4.6 3.4L6 8.5l-3.1 1.6.6-3.4L1 4.3l3.6-.4z"/></svg>
+          </div>
+          <span class="rating-score">3.6</span>
+          <span class="rating-count">(188)</span>
+        </div>
+        <div class="card-price">
+          <span class="price-current"><span class="price-symbol">$</span>24.14</span>
+          <span class="price-mrp">$ 40.95</span>
+          <span class="price-off">35% off</span>
+        </div>
+      </div>
+    </a>
+
+  </div><!-- /grid -->
+</div><!-- /page -->
+
+<script>
+  // Filter pills toggle
+  document.querySelectorAll('.filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+</script>
+
 </body>
 </html>
